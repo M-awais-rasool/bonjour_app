@@ -5,6 +5,7 @@ import SplashScreen from '../screens/authNavigation/splashScreen/SplashScreen';
 import LoginScreen from '../screens/authNavigation/loginScreen/LoginScreen';
 import RegisterScreen from '../screens/authNavigation/registerScreen/RegisterScreen';
 import {BottomTabs} from './BottomTab';
+import PlaySoundScreen from '../screens/playSoundScreen/PlaySoundScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,11 @@ const AuthStackNavigation = () => {
         <Stack.Screen
           name={'BOTTOM_NAVIGATION'}
           component={BottomTabs}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={'PLAY_SOUND_SCREEN'}
+          component={PlaySoundScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

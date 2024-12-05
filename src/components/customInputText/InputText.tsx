@@ -11,8 +11,8 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import styles from './styles';
-import Theme from '../../theme/Theme';
+import useStyles from './styles';
+import {useTheme} from '../../contextProvider/ContextProvider';
 
 interface InputTextProps extends TextInputProps {
   error?: string;
@@ -41,6 +41,9 @@ interface InputTextProps extends TextInputProps {
 }
 
 const InputText: FC<InputTextProps> = props => {
+  const styles = useStyles();
+  const {theme} = useTheme();
+
   return (
     <View style={props.viewMainStyle}>
       {props.title ? (
@@ -78,7 +81,7 @@ const InputText: FC<InputTextProps> = props => {
             placeholderTextColor={
               props.placeholderTextColor
                 ? props.placeholderTextColor
-                : Theme.colors.textColor8
+                : theme.textColor8
             }
             onChangeText={props.onChangeText}
           />

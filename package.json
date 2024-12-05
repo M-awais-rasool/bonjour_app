@@ -29,6 +29,7 @@
     "react-native-screens": "^4.3.0",
     "react-native-svg": "^15.10.0",
     "react-native-toasty-toast": "^0.0.8",
+    "react-native-tts": "^4.1.1",
     "react-native-uuid": "^2.0.3"
   },
   "devDependencies": {

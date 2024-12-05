@@ -8,8 +8,8 @@ import {
   TextStyle,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import styles from './styles';
-import Theme from '../../theme/Theme';
+import {useTheme} from '../../contextProvider/ContextProvider';
+import useStyles from './styles';
 
 interface Role {
   label: string;
@@ -29,13 +29,12 @@ interface Props {
 }
 
 const DropDown = (props: Props) => {
+  const styles = useStyles();
+  const {theme} = useTheme();
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
   const roles: Role[] = [
-    {label: 'Class 6', value: '1'},
-    {label: 'Class 7', value: '2'},
-    {label: 'Class 8', value: '3'},
-    {label: 'Class 9', value: '4'},
-    {label: 'Class 10', value: '5'},
+    {label: 'Male', value: 'Male'},
+    {label: 'Female', value: 'Female'},
   ];
 
   const selectedLabel =
@@ -54,7 +53,7 @@ const DropDown = (props: Props) => {
         style={[
           styles.dropdownButton,
           props.bgStyle,
-          !dropdownVisible && {borderRadius: Theme.responsiveSize.size8},
+          !dropdownVisible && {borderRadius: 8},
         ]}
         onPress={() => setDropdownVisible(!dropdownVisible)}>
         <Text
@@ -76,7 +75,7 @@ const DropDown = (props: Props) => {
                 props.onChange(role.value);
                 setDropdownVisible(false);
               }}>
-              <Text style={{color: Theme.colors.black}}>{role.label}</Text>
+              <Text style={{color: theme.black}}>{role.label}</Text>
             </TouchableOpacity>
           ))}
         </ScrollView>

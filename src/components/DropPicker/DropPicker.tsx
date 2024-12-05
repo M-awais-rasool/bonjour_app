@@ -1,10 +1,12 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import styles from './styles';
 import {Overlay} from 'react-native-elements';
-import Theme from '../../theme/Theme';
+import {useTheme} from '../../contextProvider/ContextProvider';
+import useStyles from './styles';
 
 const DropPicker = (props: any) => {
+  const styles = useStyles();
+  const {theme} = useTheme();
   return (
     <Overlay isVisible={props.isLoading}>
       <View style={styles.viewLoader}>
@@ -12,7 +14,7 @@ const DropPicker = (props: any) => {
         <Text style={styles.textStyleTitle}>{props.title}</Text>
         <View
           style={{
-            borderBottomWidth: Theme.responsiveSize.size1,
+            borderBottomWidth: 1,
             borderColor: '#E7E7E7',
           }}
         />

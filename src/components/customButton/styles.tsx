@@ -1,44 +1,47 @@
 import {StyleSheet} from 'react-native';
-import Theme from '../../theme/Theme';
+import {useTheme} from '../../contextProvider/ContextProvider';
 
-const styles = StyleSheet.create({
-  viewMain: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    backgroundColor: Theme.colors.bgColor2,
-    shadowColor: Theme.colors.bgColor1,
-    shadowOffset: {
-      width: 0,
-      height: -5,
+const useStyles = () => {
+  const {theme} = useTheme();
+  return StyleSheet.create({
+    viewMain: {
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      borderTopLeftRadius: 15,
+      borderTopRightRadius: 15,
+      backgroundColor: theme.bgColor2,
+      shadowColor: theme.textColor29,
+      shadowOffset: {
+        width: 0,
+        height: -5,
+      },
+      shadowOpacity: 0.29,
+      shadowRadius: 4.65,
+      elevation: 15,
     },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 15,
-  },
-  // Common
-  bgStyle: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8,
-    backgroundColor: Theme.colors.bgColor12,
-    paddingVertical: 10,
-  },
-  viewSvg: {
-    height: 18,
-    width: 18,
-    marginRight: 5,
-  },
-  textStyle: {
-    color: Theme.colors.textColor1,
-    fontSize: 14,
-    fontWeight: '700',
-    // fontFamily: Theme.fontFamily.fontInterMedium,
-  },
-  image: {
-    marginLeft: 10,
-  },
-});
+    bgStyle: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 20,
+      backgroundColor: theme.textColor29,
+      paddingVertical: 10,
+      width:'80%',
+      alignSelf:'center',
+    },
+    viewSvg: {
+      height: 18,
+      width: 18,
+      marginRight: 5,
+    },
+    textStyle: {
+      color: theme.white,
+      fontSize: 15,
+      fontWeight: '700',
+    },
+    image: {
+      marginLeft: 10,
+    },
+  });
+};
 
-export default styles;
+export default useStyles;

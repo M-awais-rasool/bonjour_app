@@ -10,7 +10,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import styles from './styles';
+import useStyles from './styles';
 
 interface CustomButtonProps {
   svg?: ReactNode;
@@ -26,6 +26,7 @@ interface CustomButtonProps {
 }
 
 const CustomButton: FC<CustomButtonProps> = props => {
+  const styles = useStyles();
   const renderLoader = () => {
     return (
       <View style={[styles.bgStyle, props.bgStyle]}>

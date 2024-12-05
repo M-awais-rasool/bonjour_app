@@ -1,24 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StatusBar, Text, View, ScrollView} from 'react-native';
 import {Validations} from '../../../constants';
-import Theme from '../../../theme/Theme';
-import styles from './styles';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {useToast} from 'react-native-toasty-toast';
-import { Loader } from '../../../components/loader';
-import { InputText } from '../../../components/customInputText';
-import { CustomButton } from '../../../components/customButton';
+import {Loader} from '../../../components/loader';
+import {InputText} from '../../../components/customInputText';
+import {CustomButton} from '../../../components/customButton';
+import useStyles from './styles';
+import {DropDown} from '../../../components/dropDown';
 const RegisterScreen = (props: any) => {
   const {showToast} = useToast();
+  const styles = useStyles();
+
   const [isSecure, setIsSecure] = useState<boolean>(false);
   //input state
   const [textEmail, setTextEmail] = useState<string>('');
   const [textName, setTextName] = useState<string>('');
   const [textPassword, setTextPassword] = useState<string>('');
+  const [dropValue, setDropValue] = useState<string>('');
   //error state
   const [errorName, setErrorName] = useState<string>('');
   const [errorEmail, setErrorEmail] = useState<string>('');
+  const [errorDrop, setErrorDrop] = useState<string>('');
   const [errorPassword, setErrorPassword] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -27,8 +31,9 @@ const RegisterScreen = (props: any) => {
     setErrorName('');
     setErrorEmail('');
     setErrorPassword('');
+    setErrorDrop('');
 
-     if (!textName.trim()) {
+    if (!textName.trim()) {
       isValid = false;
       setErrorName('*Please enter your name!');
     } else if (!Validations.isValidEmail(textEmail)) {
@@ -39,63 +44,64 @@ const RegisterScreen = (props: any) => {
       setErrorPassword(
         '*Password must be 8 characters long with 1 special character, 1 capital, 1 small case, and 1 number!',
       );
-    } 
+    }
+    if (!dropValue) {
+      isValid = false;
+      setErrorDrop('*Please select a grade!');
+    }
     return isValid;
   };
 
   const handleSignUp = async () => {
     setIsLoading(true);
-      auth()
-        .createUserWithEmailAndPassword(textEmail, textPassword)
-        .then(async (res: any) => {
-          await firestore()
-            .collection('users')
-            .doc(res.user.uid)
-            .set({
-              userId: res.user.uid,
-              name: textName,
-              email: textEmail,
-              password: textPassword,
-            });
-          setTextEmail('');
-          setTextPassword('');
-          setIsLoading(false);
-          showToast('Account created successfully!', 'success', 'top', 1000);
-          props.navigation.navigate("LOGIN_SCREEN");
-        })
-        .catch(error => {
-          setIsLoading(false);
-          if (error.code === 'auth/email-already-in-use') {
-            showToast(
-              'That email address is already in use!',
-              'error',
-              'bottom',
-              1000,
-            );
-          }
-          if (error.code === 'auth/invalid-email') {
-            showToast(
-              'That email address is invalid!',
-              'error',
-              'bottom',
-              1000,
-            );
-          }
+    auth()
+      .createUserWithEmailAndPassword(textEmail, textPassword)
+      .then(async (res: any) => {
+        await firestore().collection('users').doc(res.user.uid).set({
+          userId: res.user.uid,
+          name: textName,
+          email: textEmail,
+          password: textPassword,
+          gender: dropValue,
         });
-     
+        setTextEmail('');
+        setTextPassword('');
+        setIsLoading(false);
+        showToast('Account created successfully!', 'success', 'top', 1000);
+        props.navigation.navigate('LOGIN_SCREEN');
+      })
+      .catch(error => {
+        setIsLoading(false);
+        if (error.code === 'auth/email-already-in-use') {
+          showToast(
+            'That email address is already in use!',
+            'error',
+            'bottom',
+            1000,
+          );
+        }
+        if (error.code === 'auth/invalid-email') {
+          showToast('That email address is invalid!', 'error', 'bottom', 1000);
+        }
+      });
   };
 
   return (
     <>
       <StatusBar
         hidden={false}
-        backgroundColor={Theme.colors.white}
+        backgroundColor={'#fff'}
         barStyle={'dark-content'}
       />
       <Loader isLoading={isLoading} />
       <ScrollView style={styles.mainContainer}>
-        
-        <Text style={styles.textTitle}>{'Sign Up'}</Text>
+        <Text style={styles.topTitle}>{'bonjour'}</Text>
+        <Text style={styles.topSubTitle}>{'Let’s learn French together!'}</Text>
+        <Image
+          source={require('../../../resource/loginImage.jpg')}
+          style={styles.image}
+        />
+        <Text style={styles.textTitle}>{'Create an account'}</Text>
         <View style={[styles.marginV8, styles.padding]}>
           {/* Name Input */}
           <InputText
@@ -133,6 +139,14 @@ const RegisterScreen = (props: any) => {
             onChangeText={setTextPassword}
             viewMainStyle={styles.marginV5}
             placeholder={'Enter your password'}
+          />
+          <DropDown
+            title="Select Gender"
+            onBlur={() => isAllValid()}
+            onChange={setDropValue}
+            value={dropValue}
+            bgStyle={styles.marginV5}
+            error={errorDrop}
           />
         </View>
         <View style={styles.marginV8} />

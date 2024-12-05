@@ -7,18 +7,19 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import styles from './styles';
 import {Validations} from '../../../constants';
-import Theme from '../../../theme/Theme';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {useToast} from 'react-native-toasty-toast';
 import {Loader} from '../../../components/loader';
 import {InputText} from '../../../components/customInputText';
 import {CustomButton} from '../../../components/customButton';
-
+import useStyles from './styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const LoginScreen = (props: any) => {
   const {showToast} = useToast();
+  const styles = useStyles();
+
   const [isSecure, setIsSecure] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // Main States
@@ -61,11 +62,13 @@ const LoginScreen = (props: any) => {
       if (userDoc.exists) {
         let data = userDoc._data;
         let token = `${data.email}${data.userId}`;
+        await AsyncStorage.setItem('token', token);
+        await AsyncStorage.setItem('userId', data.userId);
         setIsLoading(false);
         showToast('Login successfully!', 'success', 'top', 1000);
         props.navigation.reset({
           index: 0,
-          routes: [{name: "HOME_SCREEN"}],
+          routes: [{name: 'BOTTOM_NAVIGATION'}],
         });
       }
     } catch (error: any) {
@@ -91,12 +94,18 @@ const LoginScreen = (props: any) => {
     <>
       <StatusBar
         hidden={false}
-        backgroundColor={Theme.colors.white}
+        backgroundColor={'#ffff'}
         barStyle={'dark-content'}
       />
       <Loader isLoading={isLoading} />
       <ScrollView style={styles.mainContainer}>
-        <Text style={styles.textTitle}>{'Sign In'}</Text>
+        <Text style={styles.topTitle}>{'bonjour'}</Text>
+        <Text style={styles.topSubTitle}>{'Let’s learn French together!'}</Text>
+        <Image
+          source={require('../../../resource/loginImage.jpg')}
+          style={styles.image}
+        />
+        <Text style={styles.textTitle}>{'Log into your account'}</Text>
         <View style={[styles.marginV8, styles.padding]}>
           <InputText
             value={textEmail}
@@ -125,14 +134,13 @@ const LoginScreen = (props: any) => {
           title={'Login'}
           bgStyle={styles.viewButton}
           onClick={() => {
-            // if (isAllValid()) {
-            //   doLogin();
-            // }
-            props.navigation.navigate("BOTTOM_NAVIGATION");
+            if (isAllValid()) {
+              doLogin();
+            }
           }}
         />
         <TouchableOpacity
-          onPress={() => props.navigation.navigate("REGISTER_SCREEN")}>
+          onPress={() => props.navigation.navigate('REGISTER_SCREEN')}>
           <Text style={styles.dontText}>
             Don't have an account?
             <Text style={styles.SignUpText}> Sign Up</Text>
