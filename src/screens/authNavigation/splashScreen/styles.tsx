@@ -1,6 +1,6 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import {useTheme} from '../../../contextProvider/ContextProvider';
-
+const {height} = Dimensions.get('screen');
 const useStyles = () => {
   const {theme} = useTheme();
 
@@ -10,18 +10,30 @@ const useStyles = () => {
       width: '100%',
       backgroundColor: theme.white,
     },
-    viewMainContainer: {
-      height: '100%',
-      width: '100%',
-      position: 'absolute',
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingHorizontal: 20,
-      backgroundColor: theme.bgColor10,
-    },
-    image: {
+    image1: {
       height: 150,
-      width: 150,
+      width: '100%',
+      marginTop: 30,
+    },
+    imag2: {
+      position: 'absolute',
+      height: 350,
+      width: 350,
+      bottom: 0,
+      alignSelf: 'center',
+    },
+    textContainer: {
+      marginTop: height - 800,
+    },
+    Text1: {
+      fontSize: 20,
+      fontWeight: '700',
+      textAlign: 'center',
+    },
+    Text2: {
+      fontSize: 17,
+      textAlign: 'center',
+      color: theme.textColor29,
     },
   });
 };
