@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "336531509684",
-    "project_id": "bonjour-5533c",
-    "storage_bucket": "bonjour-5533c.firebasestorage.app"
+    "project_number": "544226661836",
+    "project_id": "newbonjourapp",
+    "storage_bucket": "newbonjourapp.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:336531509684:android:d1afa7243d8251d0d562e1",
+        "mobilesdk_app_id": "1:544226661836:android:f1340d523e21704b36f969",
         "android_client_info": {
-          "package_name": "com.bonjour"
+          "package_name": "com.newBonjour"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCMwdkl4NWrOaAhTgV4cMt8SVrQWRb1vAg"
+          "current_key": "AIzaSyCe6cCO_fyyHDatcNwgmBD5ZWqtd7kzAg0"
         }
       ],
       "services": {

@@ -6,6 +6,8 @@ import LoginScreen from '../screens/authNavigation/loginScreen/LoginScreen';
 import RegisterScreen from '../screens/authNavigation/registerScreen/RegisterScreen';
 import {BottomTabs} from './BottomTab';
 import PlaySoundScreen from '../screens/playSoundScreen/PlaySoundScreen';
+import MembershipScreen from '../screens/membershipScreen/MembershipScreen';
+import FreeTrialScreen from '../screens/freeTrialScreen/FreeTrialScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +40,16 @@ const AuthStackNavigation = () => {
         <Stack.Screen
           name={'PLAY_SOUND_SCREEN'}
           component={PlaySoundScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={'MEMBER_SHIP_SCREEN'}
+          component={MembershipScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={'FREE_TRIAL_SCREEN'}
+          component={FreeTrialScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

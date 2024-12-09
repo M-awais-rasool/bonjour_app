@@ -6,7 +6,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import AuthStackNavigation from './src/navigation/AuthStackNavigation';
 import {ToastProvider} from 'react-native-toasty-toast';
 import {ThemeProvider} from './src/contextProvider/ContextProvider';
-
+import  "react-native-vector-icons/FontAwesome";
 const App = () => {
   return (
     <PaperProvider>
