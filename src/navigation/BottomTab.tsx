@@ -3,8 +3,6 @@ import {Image, Text} from 'react-native';
 import React from 'react';
 import HomeScreen from '../screens/home/HomeScreen';
 import ProfileScreen from '../screens/profileScreen/ProfileScreen';
-import LibraryScreen from '../screens/library/LibraryScreen';
-import MenuScreen from '../screens/menu/MenuScreen';
 import {useTheme} from '../contextProvider/ContextProvider';
 
 const Tab = createBottomTabNavigator();
@@ -22,18 +20,10 @@ export function BottomTabs() {
             iconSource = focused
               ? require('../resource/home.png')
               : require('../resource/home.png');
-          } else if (route.name === 'LIBRARY_SCREEN') {
-            iconSource = focused
-              ? require('../resource/library.png')
-              : require('../resource/library.png');
           } else if (route.name === 'PROFILE_SCREEN') {
             iconSource = focused
               ? require('../resource/profile.png')
               : require('../resource/profile.png');
-          } else if (route.name === 'MENU_SCREEN') {
-            iconSource = focused
-              ? require('../resource/menu.png')
-              : require('../resource/menu.png');
           }
 
           return (
@@ -52,12 +42,8 @@ export function BottomTabs() {
           let label;
           if (route.name === 'HOME_SCREEN') {
             label = 'Home';
-          } else if (route.name === 'LIBRARY_SCREEN') {
-            label = 'Library';
           } else if (route.name === 'PROFILE_SCREEN') {
             label = 'Profile';
-          } else if (route.name === 'MENU_SCREEN') {
-            label = 'Menu';
           }
           return (
             <Text
@@ -86,18 +72,8 @@ export function BottomTabs() {
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name={'LIBRARY_SCREEN'}
-        component={LibraryScreen}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
         name={'PROFILE_SCREEN'}
         component={ProfileScreen}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
-        name={'MENU_SCREEN'}
-        component={MenuScreen}
         options={{headerShown: false}}
       />
     </Tab.Navigator>

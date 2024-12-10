@@ -1,48 +1,71 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Image, StatusBar, Text, View} from 'react-native';
+import {Image, StatusBar, Text, View, Alert} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import useStyles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
+
 const SplashScreen = (props: any) => {
   const styles = useStyles();
   const [colorIndex, setColorIndex] = useState(0);
   const colors = ['#FF6347', '#1E90FF'];
 
-  useFocusEffect(
-    useCallback(() => {
-      setTimeout(async () => {
-        try {
-          let token = await AsyncStorage.getItem('token');
-          if (token) {
-            props.navigation.reset({
-              index: 0,
-              routes: [
-                {
-                  name: 'BOTTOM_NAVIGATION',
-                },
-              ],
-            });
-          } else {
-            props.navigation.reset({
-              index: 0,
-              routes: [
-                {
-                  name: 'LOGIN_SCREEN',
-                },
-              ],
-            });
-          }
-        } catch (err) {
+  const checkUserStatus = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const userId = await AsyncStorage.getItem('userId');
+
+      if (token && userId) {
+        const subscriptionsDoc = await firestore()
+          .collection('subscriptions')
+          .doc(userId)
+          .get();
+        const subscriptionsData = subscriptionsDoc.data();
+
+        if (subscriptionsData?.isSubscribed) {
           props.navigation.reset({
             index: 0,
-            routes: [
-              {
-                name: 'LOGIN_SCREEN',
-              },
-            ],
+            routes: [{name: 'BOTTOM_NAVIGATION'}],
+          });
+        } else if (checkTrialStatus(subscriptionsData?.trialStartDate)) {
+          props.navigation.reset({
+            index: 0,
+            routes: [{name: 'LOGIN_SCREEN'}],
+          });
+        } else {
+          props.navigation.reset({
+            index: 0,
+            routes: [{name: 'BOTTOM_NAVIGATION'}],
           });
         }
-      }, 1500);
+      } else {
+        props.navigation.reset({
+          index: 0,
+          routes: [{name: 'LOGIN_SCREEN'}],
+        });
+      }
+    } catch (err) {
+      console.error('Error checking user status:', err);
+      props.navigation.reset({
+        index: 0,
+        routes: [{name: 'LOGIN_SCREEN'}],
+      });
+    }
+  };
+
+  const checkTrialStatus = (trialStartDate: any) => {
+    if (!trialStartDate) return true;
+    const trialEndDate = trialStartDate.toDate();
+    trialEndDate.setDate(trialEndDate.getDate() + 7);
+
+    return new Date() > trialEndDate;
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      setTimeout(() => {
+        checkUserStatus();
+      }, 2000);
     }, []),
   );
 
@@ -53,6 +76,7 @@ const SplashScreen = (props: any) => {
 
     return () => clearInterval(interval);
   }, []);
+
   return (
     <>
       <StatusBar hidden />
@@ -64,10 +88,10 @@ const SplashScreen = (props: any) => {
         <View style={styles.textContainer}>
           <Text style={styles.Text1}>
             <Text style={{color: colors[colorIndex]}}>{'YOU'}</Text>
-            {'FRANCH'}
+            {'ENGLISH'}
           </Text>
           <Text style={styles.Text2}>
-            {'Welcome to your French learning journey with us!'}
+            {'Welcome to your English learning journey with us!'}
           </Text>
         </View>
         <Image

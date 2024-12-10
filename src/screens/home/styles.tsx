@@ -11,6 +11,9 @@ const useStyles = () => {
       backgroundColor: theme.white,
       paddingHorizontal: 15,
     },
+    martgin:{
+      marginTop:30
+    }
   });
 };
 

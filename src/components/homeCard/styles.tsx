@@ -12,13 +12,14 @@ const useStyles = () => {
       marginTop:10,
       alignItems:'center',
       justifyContent:'center',
-      borderRadius:20
+      borderRadius:20,
     },
     text:{
       fontSize:18,
       color:theme.white,
       fontWeight:'400',
-      letterSpacing:0.8
+      letterSpacing:0.8,
+      marginTop:25
     }
   });
 };

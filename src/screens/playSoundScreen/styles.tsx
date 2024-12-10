@@ -14,7 +14,7 @@ const useStyles = () => {
       borderWidth: 0.7,
       borderColor: theme.textColor29,
       borderRadius: 20,
-      height: height - 300,
+      height: height - 200,
     },
     youText: {
       fontSize: 18,
@@ -46,6 +46,7 @@ const useStyles = () => {
       marginLeft: 10,
       fontSize: 16,
       color: theme.black,
+      width:'90%'
     },
     activeText: {
       fontWeight: 'bold',

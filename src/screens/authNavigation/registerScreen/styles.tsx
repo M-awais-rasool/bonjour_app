@@ -63,6 +63,13 @@ const useStyles = () => {
       height: 200,
       alignSelf: 'center',
     },
+    mainImage: {
+      width: 200,
+      height: 100,
+      alignSelf: 'center',
+      resizeMode: 'contain',
+      marginTop: 20,
+    },
   });
 };
 

@@ -55,21 +55,43 @@ const LoginScreen = (props: any) => {
         textEmail,
         textPassword,
       );
+      //get user data from user table
       const userDoc: any = await firestore()
         .collection('users')
         .doc(userCredential.user.uid)
         .get();
       if (userDoc.exists) {
-        let data = userDoc._data;
-        let token = `${data.email}${data.userId}`;
+        const userData = userDoc.data();
+        let token = `${userData.email}${userData.userId}`;
         await AsyncStorage.setItem('token', token);
-        await AsyncStorage.setItem('userId', data.userId);
+        await AsyncStorage.setItem('userId', userData.userId);
+
+        //get subscriptions data from subscriptions table
+        const subscriptions = await firestore()
+          .collection('subscriptions')
+          .doc(userCredential.user.uid)
+          .get();
+        const subscriptionsData = subscriptions.data();
         setIsLoading(false);
         showToast('Login successfully!', 'success', 'top', 1000);
-        props.navigation.reset({
-          index: 0,
-          routes: [{name: 'BOTTOM_NAVIGATION'}],
-        });
+
+        // check if user is subscribed and trial is used or not
+        if (subscriptionsData?.isSubscribed) {
+          props.navigation.reset({
+            index: 0,
+            routes: [{name: 'BOTTOM_NAVIGATION'}],
+          });
+        } else if (await checkTrialStatus(subscriptionsData?.trialStartDate)) {
+          props.navigation.reset({
+            index: 0,
+            routes: [{name: 'MEMBER_SHIP_SCREEN'}],
+          });
+        } else {
+          props.navigation.reset({
+            index: 0,
+            routes: [{name: 'BOTTOM_NAVIGATION'}],
+          });
+        }
       }
     } catch (error: any) {
       setIsLoading(false);
@@ -87,9 +109,17 @@ const LoginScreen = (props: any) => {
         errorMessage = 'Invalid email or password';
         showToast(errorMessage, 'error', 'bottom', 1000);
       }
+      console.log(error);
     }
   };
 
+  const checkTrialStatus = async (trialStartDate: any) => {
+    if (!trialStartDate) return true;
+    const trialEndDate = trialStartDate.toDate();
+    trialEndDate.setDate(trialEndDate.getDate() + 7);
+
+    return new Date() > trialEndDate;
+  };
   return (
     <>
       <StatusBar
@@ -99,8 +129,11 @@ const LoginScreen = (props: any) => {
       />
       <Loader isLoading={isLoading} />
       <ScrollView style={styles.mainContainer}>
-        <Text style={styles.topTitle}>{'bonjour'}</Text>
-        <Text style={styles.topSubTitle}>{'Let’s learn French together!'}</Text>
+        <Image
+          source={require('../../../resource/login.png')}
+          style={styles.mainImage}
+        />
+        <Text style={styles.topSubTitle}>{'Let’s learn English together!'}</Text>
         <Image
           source={require('../../../resource/loginImage.jpg')}
           style={styles.image}

@@ -14,7 +14,7 @@ const useStyles = () => {
       alignItems: 'center',
       height: 45,
       marginTop: 3,
-      backgroundColor: theme.bgColor10,
+      backgroundColor: theme.white,
       borderColor: theme.borderColor5,
       borderWidth: 1,
       borderRadius: 8,

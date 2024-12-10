@@ -16,7 +16,6 @@ const MembershipScreen = (props: any) => {
     {icon: 'users', title: 'Dialogues'},
     {icon: 'lightbulb-o', title: 'Grammar'},
     {icon: 'list-alt', title: 'Conjugation'},
-    {icon: 'gift', title: 'Bonus'},
   ];
 
   return (
@@ -27,7 +26,7 @@ const MembershipScreen = (props: any) => {
         </Text>
         <Text style={styles.subtitle}>
           {
-            ' Unlock all the French learning audio today and become fluent faster with YouFrench!'
+            ' Unlock all the English learning audio today and become fluent faster with YouEnglish!'
           }
         </Text>
 
@@ -45,7 +44,12 @@ const MembershipScreen = (props: any) => {
 
         <View style={styles.featuresContainer}>
           {features.map((feature, index) => (
-            <View key={index} style={styles.featureCard}>
+            <View
+              key={index}
+              style={[
+                styles.featureCard,
+                {width: index >= features.length - 1 ? '100%' : '48%'},
+              ]}>
               <Icon name={feature.icon} size={40} color="#FFD700" />
               <Text style={styles.featureTitle}>{feature.title}</Text>
             </View>

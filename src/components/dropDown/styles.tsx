@@ -51,7 +51,7 @@ const useStyles = () => {
     textError: {
       color: theme.textColor5,
       marginTop: 2,
-      fontSize: 11,
+      fontSize: 14,
       fontWeight: '400',
     },
   });

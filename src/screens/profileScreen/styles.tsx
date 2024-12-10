@@ -11,6 +11,17 @@ const useStyles = () => {
       backgroundColor: theme.white,
       paddingHorizontal: 10,
     },
+    martgin: {
+      marginTop: 15,
+    },
+    profileText: {
+      marginTop: 30,
+      textAlign: 'center',
+      fontSize: 20,
+      fontWeight: 'bold',
+      letterSpacing: 0.7,
+      color: 'black',
+    },
   });
 };
 export default useStyles;

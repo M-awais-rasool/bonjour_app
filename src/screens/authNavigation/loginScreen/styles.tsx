@@ -72,6 +72,13 @@ const useStyles = () => {
       color: theme.textColor28,
       fontWeight: 'bold',
     },
+    mainImage: {
+      width: 200,
+      height: 100,
+      alignSelf: 'center',
+      resizeMode: 'contain',
+      marginTop: 20,
+    },
   });
 };
 

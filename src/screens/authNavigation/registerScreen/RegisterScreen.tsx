@@ -44,8 +44,7 @@ const RegisterScreen = (props: any) => {
       setErrorPassword(
         '*Password must be 8 characters long with 1 special character, 1 capital, 1 small case, and 1 number!',
       );
-    }
-    if (!dropValue) {
+    } else if (!dropValue) {
       isValid = false;
       setErrorDrop('*Please select a grade!');
     }
@@ -54,36 +53,45 @@ const RegisterScreen = (props: any) => {
 
   const handleSignUp = async () => {
     setIsLoading(true);
-    auth()
-      .createUserWithEmailAndPassword(textEmail, textPassword)
-      .then(async (res: any) => {
-        await firestore().collection('users').doc(res.user.uid).set({
-          userId: res.user.uid,
-          name: textName,
-          email: textEmail,
-          password: textPassword,
-          gender: dropValue,
+    try {
+      auth()
+        .createUserWithEmailAndPassword(textEmail, textPassword)
+        .then(async (res: any) => {
+          await firestore().collection('users').doc(res.user.uid).set({
+            userId: res.user.uid,
+            name: textName,
+            email: textEmail,
+            password: textPassword,
+            gender: dropValue,
+          });
+          setTextEmail('');
+          setTextPassword('');
+          setIsLoading(false);
+          showToast('Account created successfully!', 'success', 'top', 1000);
+          props.navigation.navigate('LOGIN_SCREEN');
+        })
+        .catch(error => {
+          setIsLoading(false);
+          if (error.code === 'auth/email-already-in-use') {
+            showToast(
+              'That email address is already in use!',
+              'error',
+              'bottom',
+              1000,
+            );
+          }
+          if (error.code === 'auth/invalid-email') {
+            showToast(
+              'That email address is invalid!',
+              'error',
+              'bottom',
+              1000,
+            );
+          }
         });
-        setTextEmail('');
-        setTextPassword('');
-        setIsLoading(false);
-        showToast('Account created successfully!', 'success', 'top', 1000);
-        props.navigation.navigate('LOGIN_SCREEN');
-      })
-      .catch(error => {
-        setIsLoading(false);
-        if (error.code === 'auth/email-already-in-use') {
-          showToast(
-            'That email address is already in use!',
-            'error',
-            'bottom',
-            1000,
-          );
-        }
-        if (error.code === 'auth/invalid-email') {
-          showToast('That email address is invalid!', 'error', 'bottom', 1000);
-        }
-      });
+    } catch (err) {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -93,10 +101,15 @@ const RegisterScreen = (props: any) => {
         backgroundColor={'#fff'}
         barStyle={'dark-content'}
       />
-      <Loader isLoading={isLoading} />
       <ScrollView style={styles.mainContainer}>
-        <Text style={styles.topTitle}>{'bonjour'}</Text>
-        <Text style={styles.topSubTitle}>{'Let’s learn French together!'}</Text>
+        <Loader isLoading={isLoading} />
+        <Image
+          source={require('../../../resource/login.png')}
+          style={styles.mainImage}
+        />
+        <Text style={styles.topSubTitle}>
+          {'Let’s learn English together!'}
+        </Text>
         <Image
           source={require('../../../resource/loginImage.jpg')}
           style={styles.image}
@@ -155,8 +168,8 @@ const RegisterScreen = (props: any) => {
           title={'Sign Up'}
           bgStyle={styles.viewButton}
           onClick={() => {
+            handleSignUp();
             if (isAllValid()) {
-              handleSignUp();
             }
           }}
         />

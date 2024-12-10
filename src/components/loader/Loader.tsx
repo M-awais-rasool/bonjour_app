@@ -1,22 +1,20 @@
 import React, {FC} from 'react';
 import {ActivityIndicator, View} from 'react-native';
-import {Overlay} from 'react-native-elements';
-import {useTheme} from '../../contextProvider/ContextProvider';
 import useStyles from './styles';
 
 interface LoaderProps {
   isLoading: boolean;
 }
 
-const Loader: FC<LoaderProps> = props => {
+const Loader = (props: LoaderProps) => {
   const styles = useStyles();
-  const {theme} = useTheme();
+  if (!props.isLoading) return null;
   return (
-    <Overlay isVisible={props.isLoading} onBackdropPress={console.log}>
-      <View style={styles.viewLoader}>
-        <ActivityIndicator size="large" color={theme.appColor} />
+    <View style={styles.container}>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#004aad" />
       </View>
-    </Overlay>
+    </View>
   );
 };
 
