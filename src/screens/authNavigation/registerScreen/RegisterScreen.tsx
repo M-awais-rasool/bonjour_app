@@ -168,8 +168,8 @@ const RegisterScreen = (props: any) => {
           title={'Sign Up'}
           bgStyle={styles.viewButton}
           onClick={() => {
-            handleSignUp();
             if (isAllValid()) {
+              handleSignUp();
             }
           }}
         />
