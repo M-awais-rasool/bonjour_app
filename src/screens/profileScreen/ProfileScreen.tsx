@@ -116,6 +116,7 @@ const ProfileScreen = (props: any) => {
           onBlur={() => isAllValid()}
           onChange={setDropValue}
           value={dropValue}
+          dropdownList={{top:63}}
         />
         <View style={styles.martgin} />
         <View style={styles.martgin} />

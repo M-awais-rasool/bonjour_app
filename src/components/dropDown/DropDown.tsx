@@ -26,6 +26,7 @@ interface Props {
   placeholderTextColor?: StyleProp<TextStyle>;
   textStyle?: StyleProp<TextStyle>;
   bgStyle?: StyleProp<ViewStyle>;
+  dropdownList?: StyleProp<ViewStyle>;
 }
 
 const DropDown = (props: Props) => {
@@ -66,7 +67,7 @@ const DropDown = (props: Props) => {
         </Text>
       </TouchableOpacity>
       {dropdownVisible && (
-        <ScrollView nestedScrollEnabled style={styles.dropdownList}>
+        <ScrollView nestedScrollEnabled style={[styles.dropdownList,props.dropdownList]}>
           {roles.map(role => (
             <TouchableOpacity
               key={role.value}

@@ -65,19 +65,19 @@ const ThemeContext = createContext({
 export const ThemeProvider = ({children}: any) => {
   const colorScheme = Appearance.getColorScheme();
   const [theme, setTheme] = useState(
-    colorScheme === 'dark' ? DarkColors : LightColors,
+    colorScheme === 'dark' ? LightColors : LightColors,
   );
 
   useEffect(() => {
     const subscription = Appearance.addChangeListener(({colorScheme}) => {
-      setTheme(colorScheme === 'dark' ? DarkColors : LightColors);
+      setTheme(colorScheme === 'dark' ? LightColors : LightColors);
     });
     return () => subscription.remove();
   }, []);
 
   const toggleTheme = () => {
     setTheme(prevTheme =>
-      prevTheme === LightColors ? DarkColors : LightColors,
+      prevTheme === LightColors ? LightColors : LightColors,
     );
   };
 
